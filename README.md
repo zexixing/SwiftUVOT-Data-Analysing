@@ -1,39 +1,17 @@
-### modify 2019-07-20
-- 根据原作者的思路+参考一些天文github repo的目录结构进行修改
-- 去掉test等我暂时还用不到（不会用）的部分，增添并修改note和data部分
+## Processing of Swift UVOT data of Borisov & asteroids
 
----
 
-# pyempty
+This respository keeps files of a project named as the title, which is a part of a larger project led by Dr. A. H..
+This is an ongoing project.
+For asteroids, we expect to extract spectra from grism data 
+and also do some temporal analyses; For the new observations of Borisov, we expect to sum all images to see what interesting results can be obtained.
 
-好的开始是成功的一半，写python代码就从这里开始吧。
+This work is mainly being done by Z. X. from HKU, when she is visiting Auburn U from Oct, and she is guided by Dr. D. B., who is really a nice mentor and deserves great great thanks.
 
-## 目录介绍
-
-1. ./ChangeLog.txt :变更历史
-1. ./LICENES.txt :协议
-1. ./run_all_test.sh :执行test目录下的所有单元测试
-1. ./lint.sh: 检查所有python代码的风格
-1. ./MANIFEST.in :文件清单，distutils默认只打包指定模块下的.py文件,其它的要在这里指定
-1. ./README.md :项目介绍
-1. ./requirements.txt :项目需要依赖哪些模块
-1. ./setup.py :安装文件
-1. ./docs/ :文档目录
-1. ./docs/analysis.model.md :概要设计文档
-1. ./docs/design.model.md :详细设计文档
-1. ./docs/maintain.md :维护文档
-1. ./src/ :源码目录
-1. ./src/pyempty : 项目代码
-1. ./src/pyempty/stuff :杂项文件，在setup.py里用package_data参数指定
-1. ./test/ :测试目录
-1. ./test/test_pyempty.py :测试示例
-
-## 参考连接
-
-1. [Python 打包指南](http://www.ibm.com/developerworks/cn/opensource/os-pythonpackaging/)
-1. [深入Python3.0:打包 Python 类库](http://woodpecker.org.cn/diveintopython3/packaging.html)
-1. [python打包:分发指定文件](http://docs.python.org/release/3.1.5/distutils/sourcedist.html#manifest)
-1. [深入python3.0: 单元测试](http://woodpecker.org.cn/diveintopython3/unit-testing.html)
-1. [Unit testing framework](http://docs.python.org/library/unittest.html)
-1. [Python单元测试框架中文版](http://pyunit.sourceforge.net/pyunit_cn.html)
-1. [Python自动单元测试框架](http://www.ibm.com/developerworks/cn/linux/l-pyunit/index.html)
+Directories:
+- data: raw data & intermediate docs
+- docs: outputs (plots & tables to be published) & logs (observing log)
+- main: scripts of classes & functions ...
+- manual: pdf files or websites of tutorials
+- note: scripts of outputting (plotting & calculating ...)
+- report: weekly summaries & discussions in form of slides
