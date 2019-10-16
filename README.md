@@ -1,4 +1,4 @@
-## Processing of Swift UVOT data of Borisov & asteroids
+## Processe Swift UVOT data of Borisov & asteroids
 
 
 This respository keeps files of a project named as the title, which is a part of a larger project led by Dr. A. H..
