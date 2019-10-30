@@ -34,7 +34,7 @@ def cr2mag(cr, cr_err, filt):
 
 def cr2mean_flux(cr, cr_err, filt):
     # read ea
-    ea_path = get_path('../docs/arf_'+filt+'.fits')
+    ea_path = get_path('../data/auxil/arf_'+filt+'.fits')
     ea_data = fits.open(ea_path)[1].data
     ea_wave = (ea_data['WAVE_MIN']+ea_data['WAVE_MAX'])/20. # A to nm
     ea_area = ea_data['SPECRESP']
@@ -52,11 +52,11 @@ def mag_flux_from_spec(spec_name, filt):
     to calculate apparent magnitude
     """
     # read spectra
-    spec_path = get_path('../docs/'+spec_name)
+    spec_path = get_path('../data/auxil/'+spec_name)
     spec_wave = np.loadtxt(spec_path)[:, 0]
     spec_flux = np.loadtxt(spec_path)[:, 1]*2.720E-4 # flux moment to irradiance
     # read ea
-    ea_path = get_path('../docs/arf_'+filt+'.fits')
+    ea_path = get_path('../data/auxil/arf_'+filt+'.fits')
     ea_data = fits.open(ea_path)[1].data
     ea_wave = (ea_data['WAVE_MIN']+ea_data['WAVE_MAX'])/20. # A to nm
     ea_area = ea_data['SPECRESP']
