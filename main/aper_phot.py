@@ -3,6 +3,16 @@ from astropy.io import fits
 from tools import get_path
 from scipy import interpolate
 
+def filt_para(filt):
+    para = {'v': {'fwhm': 769, 'zp': 17.89, 'cf': 2.61e-16},
+            'b': {'fwhm': 975, 'zp': 19.11, 'cf': 1.32e-16},
+            'u': {'fwhm': 785, 'zp': 18.34, 'cf': 1.5e-16},
+            'uw1': {'fwhm': 693, 'zp': 17.49, 'cf': 4.3e-16, 'rf': 0.138},
+            'um2': {'fwhm': 498, 'zp': 16.82, 'cf': 7.5e-16},
+            'uw2': {'fwhm': 657, 'zp': 17.35, 'cf': 6.0e-16}
+            }
+    return para[filt]
+
 def aper_phot(src_count, src_pixel, 
                bg_bri, exposure,
                src_count_err, bg_bri_err):
@@ -21,10 +31,7 @@ def aper_phot(src_count, src_pixel,
 def cr2mag(cr, cr_err, filt):
     """use zero points to transfer counts to mag
     """
-    if filt == 'uw1':
-        zp = 17.44
-    elif filt == 'v':
-        zp = 17.89
+    zp = filt_para(filt)['zp']
     mag = zp - 2.5*np.log10(cr)
     if cr_err == False:
         return mag
@@ -47,7 +54,28 @@ def cr2mean_flux(cr, cr_err, filt):
     snr = mean_flux/mean_flux_err
     return mean_flux, mean_flux_err, snr
 
-def mag_flux_from_spec(spec_name, filt):
+def cr2sb(cr, cr_err, filt, solid_angle):
+    """convert count rate to surface brightness
+    unit: W m-2 sr-1
+
+    cr to flux density: Poole et al. 2008
+    flux den to flux: flux den*FWHM
+    flux to sf: flux*factors/solid_angle
+    factors: 1 arcsec2 = 2.35e-11 sr
+             1 erg s-1 = 1e-7W
+             1 cm2 = 1e-4m2
+    """
+    fwhm = filt_para(filt)['fwhm']
+    cf = filt_para(filt)['cf']
+    factors = 1. #TODO:
+    sb = cr*cf*fwhm*factors/solid_angle
+    if cr_err == False: 
+        return sb
+    else:
+        sb_err = cr_err*cf*fwhm*factors/solid_angle
+        return sb, sb_err
+
+def mag_sb_flux_from_spec(spec_name, filt):
     """use effective area and theoretical spectra
     to calculate apparent magnitude
     """
@@ -73,12 +101,12 @@ def mag_flux_from_spec(spec_name, filt):
     delta_wave = spec[1, 0] - spec[0, 0]
     cr = 0
     flux = 0
-    A = 0
+    A = 0 # 30 
     for i in range(len(spec)):
         cr += spec[i, 0]*spec[i, 1]*spec[i, 2]*delta_wave*1e8*5.034116651114543
         flux += spec[i, 1]*spec[i, 2]*delta_wave
         A += spec[i, 2]*delta_wave
-    mean_flux = flux/A
-    mean_flux = mean_flux/10. # nm to A
+    flux = flux/A
+    flux = flux/10. # nm to A
     # cr to mag
-    return cr2mag(cr, False, filt), mean_flux
+    return cr2mag(cr, False, filt), cr2sb(cr, False, filt, 1.), flux  
