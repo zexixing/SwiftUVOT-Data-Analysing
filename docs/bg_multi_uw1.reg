@@ -1,0 +1,34 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+physical
+circle(883.3936,1634.776,13) # color=black width=2
+circle(989.1472,1039.6528,13) # color=black width=2
+circle(1047.208,1006.4752,13) # color=black width=2
+circle(960.1168,969.1504,13) # color=black width=2
+circle(833.6272,1466.8144,13) # color=black width=2
+circle(1198.5808,1130.8912,13) # color=black width=2
+circle(1086.6064,1516.5808,13) # color=black width=2
+circle(663.592,1473.0352,13) # color=black width=2
+circle(1308.4816,1298.8528,13) # color=black width=2
+circle(1007.8096,1164.0688,13) # color=black width=2
+circle(1277.3776,1261.528,33) # color=black width=2
+circle(1053.4288,1004.4016,33) # color=black width=2
+circle(958.0432,983.6656,33) # color=black width=2
+circle(887.5408,1634.776,33) # color=black width=2
+circle(767.272,1417.048,33) # color=black width=2
+circle(1128.0784,1568.4208,33) # color=black width=2
+circle(1074.1648,1164.0688,33) # color=black width=2
+circle(1128.0784,1058.3152,33) # color=black width=2
+circle(1250.4208,1249.0864,50) # color=black width=2
+circle(868.8784,1564.2736,50) # color=black width=2
+circle(1078.312,1047.9472,50) # color=white width=2
+circle(715.432,1414.9744,50) # color=black width=2
+circle(1175.7712,1157.848,50) # color=black width=2
+circle(850.216,975.3712,33) # color=black width=2
+circle(961.4992,1674.1744,50) # color=black width=2
+circle(725.8,1574.6416,33) # color=black width=2
+circle(1049.2816,1514.5072,33) # color=black width=2
+circle(1140.8656,1605.7456,50) # color=black width=2
+circle(1130.152,1398.3856,33) # color=black width=2
+circle(867.49601,970.18721,50) # color=white width=2
+circle(964.26401,1066.9552,50) # color=white width=2

@@ -1,0 +1,45 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+physical
+circle(1035.1727,1011.1241,13) # color=black
+circle(1095.0287,1540.0841,13) # color=black
+circle(809.09266,1536.4361,13) # color=black
+circle(1019.6207,964.46813,13) # color=black
+circle(972.96466,986.93213,13) # color=black
+circle(642.91666,1367.0921,13) # color=black
+circle(1047.2687,1009.3961,26) # color=black
+circle(796.42066,1450.2281,13) # color=black
+circle(979.87666,1040.5001,13) # color=black
+circle(1019.6207,1045.6841,13) # color=black
+circle(983.33266,1109.6201,13) # color=black
+circle(899.95666,1578.1481,13) # color=black
+circle(1040.3567,1448.3081,13) # color=black
+circle(969.13714,1040.1772,26) # color=black
+circle(985.93003,1059.1868,39) # color=black
+circle(974.59892,1096.4419,26) # color=black
+circle(1024.7567,1440.0521,39) # color=black
+circle(808.4591,1539.4313,39) # color=black
+circle(962.5967,980.0201,26) # color=black
+circle(1068.2911,1017.2423,39) # color=black
+circle(910.79114,955.15899,30.075451) # color=black
+circle(913.1567,1550.0201,39) # color=black
+circle(785.44982,1464.5052,39) # color=black
+circle(641.1887,1364.6729,39) # color=black
+circle(1036.9007,1446.9257,26) # color=black
+circle(905.6111,1558.6025,26) # color=black
+circle(806.8463,1537.4729,26) # color=black
+circle(795.0575,1450.4105,26) # color=black
+circle(640.8431,1366.0553,26) # color=black
+circle(1173.8264,1159.4384,38.108101) # color=black
+circle(1095.6851,1057.1084,52.200242) # color=black
+circle(767.4671,1465.9433,59.591453) # color=black
+circle(681.6815,1363.7897,64.072718) # color=black
+circle(1166.2607,1262.2601,43.768366) # color=black
+circle(1010.2799,1503.6809,54.083457) # color=black
+circle(695.7359,1443.4697,52.113995) # color=black
+circle(983.33266,1109.6201,13) # color=black
+circle(1078.1327,1250.0201,13) # color=black
+circle(1078.1327,1250.0201,13) # color=black
+circle(1204.1326,1348.4201,13) # color=black
+circle(681.6815,1363.7897,64.072718) # color=black
+circle(962.5967,980.0201,26) # color=black

@@ -1,6 +1,8 @@
 import numpy as np
 from astropy.io import fits
+from itertools import islice
 from tools import get_path
+from cr2others import *
 
 def load_img(img_name):
     img_path = get_path('../docs/'+img_name)
@@ -92,10 +94,13 @@ def load_reg_list(reg_name):
     for line in islice(reg_file, 3, None):
         reg_data = line.split('(')[1]
         reg_data = reg_data.split(')')[0]
-        reg_data = reg_data.split[',']
-        center_j_list.append(reg_data[0])
-        center_i_list.append(reg_data[1])
-        radiu_list.append(reg_data[2:])
+        reg_data = reg_data.split(',')
+        center_j_list.append(float(reg_data[0]))
+        center_i_list.append(float(reg_data[1]))
+        if len(reg_data[2:]) == 1:
+            radiu_list.append(float(reg_data[2:][0]))
+        else:
+            radiu_list.append([float(k) for k in reg_data[2:]])
     return center_i_list, center_j_list, radiu_list
 
 def reg2bg_bri(img_name, bg_method, bg_center, bg_r, n=3):
@@ -117,3 +122,13 @@ def reg2bg_bri(img_name, bg_method, bg_center, bg_r, n=3):
         bg_bri = bg_count/bg_pixel
         bg_bri_err = np.sqrt(bg_count)/bg_pixel
     return bg_bri, bg_bri_err
+
+def aper_phot_multi(img_name, filt, src_center, src_r, bg_center, bg_r):
+    exposure = float(load_header(img_name)['EXPTIME'])
+    src_count, src_pixel = circle_ct(img_name, src_center, src_r)
+    bg_bri, bg_bri_err = reg2bg_bri(img_name, 'multi', bg_center, bg_r)
+    cr, cr_err, snr = aper_phot(src_count, src_pixel, \
+                                bg_bri, exposure,
+                                np.sqrt(src_count), bg_bri_err)
+    mag, mag_err = cr2mag(cr, cr_err, filt)
+    return cr, snr, mag
