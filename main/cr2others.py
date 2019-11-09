@@ -24,7 +24,7 @@ def cr2mag(cr, cr_err, filt):
         mag_err = 2.5*cr_err/(np.log(10)*cr)
         return mag, mag_err
 
-def cr2mean_flux(cr, cr_err, filt):
+def cr2equi_flux(cr, cr_err, filt):
     # read ea
     ea_path = get_path('../data/auxil/arf_'+filt+'.fits')
     ea_data = fits.open(ea_path)[1].data
@@ -34,10 +34,10 @@ def cr2mean_flux(cr, cr_err, filt):
     factor = 0
     for i in range(len(ea_wave)):
         factor += ea_area[i]*ea_wave[i]*delta_wave*1e8*5.034116651114543
-    mean_flux = cr/(factor*10) # 10: nm to A
-    mean_flux_err = cr_err/(factor*10)
-    snr = mean_flux/mean_flux_err
-    return mean_flux, mean_flux_err, snr
+    equi_flux = cr/(factor*10) # 10: nm to A
+    equi_flux_err = cr_err/(factor*10)
+    snr = equi_flux/equi_flux_err
+    return equi_flux, equi_flux_err, snr
 
 def cr2sb(cr, cr_err, filt, solid_angle):
     """convert count rate to surface brightness
@@ -60,6 +60,16 @@ def cr2sb(cr, cr_err, filt, solid_angle):
         sb_err = cr_err*cf*fwhm*factors/solid_angle
         return sb, sb_err
 
+def cr2flux(cr, cr_err, filt):
+    fwhm = filt_para(filt)['fwhm']
+    cf = filt_para(filt)['cf']
+    flux = cr*cf*fwhm
+    if cr_err == False:
+        return flux
+    else:
+        flux_err = cr_err*cf*fwhm
+        return flux, flux_err
+
 def mag_sb_flux_from_spec(spec_name, filt):
     """use effective area and theoretical spectra
     to calculate apparent magnitude
@@ -67,11 +77,11 @@ def mag_sb_flux_from_spec(spec_name, filt):
     # read spectra
     spec_path = get_path('../data/auxil/'+spec_name)
     spec_wave = np.loadtxt(spec_path)[:, 0]
-    spec_flux = np.loadtxt(spec_path)[:, 1]*2.720E-4 # flux moment to irradiance
+    spec_flux = np.loadtxt(spec_path)[:, 1]#*2.720E-4 # flux moment to irradiance
     # read ea
     ea_path = get_path('../data/auxil/arf_'+filt+'.fits')
     ea_data = fits.open(ea_path)[1].data
-    ea_wave = (ea_data['WAVE_MIN']+ea_data['WAVE_MAX'])/20. # A to nm
+    ea_wave = (ea_data['WAVE_MIN']+ea_data['WAVE_MAX'])/2#0. # A to nm
     ea_area = ea_data['SPECRESP']
     # interpolate ea to cater for spec
     ea = interpolate.interp1d(ea_wave, ea_area, fill_value='extrapolate')
@@ -85,13 +95,7 @@ def mag_sb_flux_from_spec(spec_name, filt):
     # integral
     delta_wave = spec[1, 0] - spec[0, 0]
     cr = 0
-    flux = 0
-    A = 0 # 30 
     for i in range(len(spec)):
-        cr += spec[i, 0]*spec[i, 1]*spec[i, 2]*delta_wave*1e8*5.034116651114543
-        flux += spec[i, 1]*spec[i, 2]*delta_wave
-        A += spec[i, 2]*delta_wave
-    flux = flux/A
-    flux = flux/10. # nm to A
+        cr += spec[i, 0]*spec[i, 1]*spec[i, 2]*delta_wave*1e7*5.034116651114543 #10^8 for Kurucz
     # cr to mag
-    return cr2mag(cr, False, filt), cr2sb(cr, False, filt, 1.), flux  
+    return cr, cr2mag(cr, False, filt), cr2sb(cr, False, filt, 1.), cr2flux(cr, False, filt)
