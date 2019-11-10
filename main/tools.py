@@ -1,4 +1,5 @@
 from _mypath import thisdir
+import numpy as np
 import os
 
 def get_path(*rela_path, to_file=False):
@@ -21,3 +22,15 @@ def get_path(*rela_path, to_file=False):
         return path
     else:
         return os.path.join(thisdir, rela_path[0])
+
+def error_prop(method, x, x_err, y, y_err):
+    if method == 'sum' or method == 'sub':
+        return np.sqrt(np.power(x_err,2)+np.power(y_err,2))
+    elif method == 'mul':
+        err_1 = np.power(x_err*y,2)
+        err_2 = np.power(y_err*x,2)
+        return np.sqrt(err_1+err_2)
+    elif method == 'div':
+        err_1 = np.power(x_err/y,2)
+        err_2 = np.power(x*y_err/np.power(y,2),2)
+        return np.sqrt(err_1+err_2)

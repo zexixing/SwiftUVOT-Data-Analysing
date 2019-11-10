@@ -131,4 +131,6 @@ def aper_phot_multi(img_name, filt, src_center, src_r, bg_center, bg_r):
                                 bg_bri, exposure,
                                 np.sqrt(src_count), bg_bri_err)
     mag, mag_err = cr2mag(cr, cr_err, filt)
-    return cr, snr, mag
+    bg_cr = 4*bg_bri/exposure
+    bg_cr_err = 4*bg_bri_err/exposure
+    return (cr, cr_err), snr, (mag, mag_err), (bg_cr, bg_cr_err)
