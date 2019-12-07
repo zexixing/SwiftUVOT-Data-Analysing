@@ -2,7 +2,7 @@ import numpy as np
 from astropy.io import fits
 from itertools import islice
 from tools import get_path
-from cr2others import *
+from conversion import *
 
 def load_img(img_name):
     img_path = get_path('../docs/'+img_name)
@@ -31,11 +31,12 @@ def limit_loop(img_name, center, r):
     j_range = j_range[j_range < cen_pix[1]+r]
     return img_data, cen_pix, i_range, j_range
 
-def circle_ct(img_name, center, r):
+def circle_ct(img_name, center, r, method='mean'):
     img_data, cen_pix, i_range, j_range = \
         limit_loop(img_name, center, r)
     pixel = 0
     count = 0
+    count_list = []
     for i in i_range:
         for j in j_range:
             pos_pix = [i, j]
@@ -43,15 +44,19 @@ def circle_ct(img_name, center, r):
             if pos_cen_dist < r:
                 pixel += 1
                 count += img_data[i, j]
+                count_list.append(img_data[i, j])
+    if method == 'median':
+        count = np.median(np.array(count_list))*pixel
     return count, pixel
 
-def donut_ct(img_name, center, r):
+def donut_ct(img_name, center, r, method='mean'):
     r1 = r[0]
     r2 = r[1]
     img_data, cen_pix, i_range, j_range = \
         limit_loop(img_name, center, r2)
     pixel = 0
     count = 0
+    count_list = []
     for i in i_range:
         for j in j_range:
             pos_pix = [i, j]
@@ -59,6 +64,24 @@ def donut_ct(img_name, center, r):
             if pos_cen_dist > r1 and pos_cen_dist < r2:
                 pixel += 1
                 count += img_data[i, j]
+                count_list.append(img_data[i,j])
+    if method == 'median':
+        count = np.median(np.array(count_list))*pixel
+    return count, pixel
+
+def azimuthal_ct(img_name,
+                 center, aperture, 
+                 step_num):
+    step = aperture/step_num
+    count = 0
+    pixel = 0
+    for i in range(0, step_num):
+        r_i = (i*step,(i+1)*step)
+        count_i, pixel_i = donut_ct(img_name, 
+                                    center, r_i, 
+                                    method='median')
+        count += count_i
+        pixel += pixel_i
     return count, pixel
 
 def multi_circle_ct(img_name, center_list, r_list):
@@ -69,21 +92,6 @@ def multi_circle_ct(img_name, center_list, r_list):
         count_list.append(count)
         pixel_list.append(pixel)
     return count_list, pixel_list
-
-def aper_phot(src_count, src_pixel, 
-              bg_bri, exposure, 
-              src_count_err, bg_bri_err):
-    """aperture photometry
-    """
-    bg_count = bg_bri*src_pixel
-    bg_count_err = bg_bri_err*src_pixel
-    net_count = src_count - bg_count
-    net_count_err = np.sqrt(bg_count_err**2
-                            +src_count_err**2)
-    net_cr = net_count/exposure
-    net_cr_err = net_count_err/exposure
-    snr = net_cr/net_cr_err
-    return net_cr, net_cr_err, snr
 
 def load_reg_list(reg_name):
     reg_path = get_path('../docs/'+reg_name)
@@ -103,11 +111,11 @@ def load_reg_list(reg_name):
             radiu_list.append([float(k) for k in reg_data[2:]])
     return center_i_list, center_j_list, radiu_list
 
-def reg2bg_bri(img_name, bg_method, bg_center, bg_r, n=3):
+def reg2bg_bri(img_name, bg_method, bg_center, bg_r, count_method):
     if bg_method == 'single':
-        bg_count, bg_pixel = circle_ct(img_name, bg_center, bg_r)
+        bg_count, bg_pixel = circle_ct(img_name, bg_center, bg_r, count_method)
     elif bg_method == 'donut':
-        bg_count, bg_pixel = dount_ct(img_name, bg_center, bg_r)
+        bg_count, bg_pixel = donut_ct(img_name, bg_center, bg_r, count_method)
     elif bg_method == 'multi':
         bg_count, bg_pixel = multi_circle_ct(img_name, bg_center, bg_r)
         bg_count = np.array(bg_count)
@@ -115,6 +123,7 @@ def reg2bg_bri(img_name, bg_method, bg_center, bg_r, n=3):
     else:
         raise Exception('check the input of method')
     if bg_method == 'multi':
+        n = len(bg_center)
         bg_bri = bg_count/bg_pixel
         bg_bri = np.mean(bg_bri)
         bg_bri_err = (1/n)*np.sqrt(np.sum(bg_count/np.power(bg_pixel, 2)))
@@ -123,14 +132,56 @@ def reg2bg_bri(img_name, bg_method, bg_center, bg_r, n=3):
         bg_bri_err = np.sqrt(bg_count)/bg_pixel
     return bg_bri, bg_bri_err
 
-def aper_phot_multi(img_name, filt, src_center, src_r, bg_center, bg_r):
+def aper_phot_cr(src_count, src_pixel, 
+                 bg_bri, exposure, 
+                 src_count_err, bg_bri_err):
+    """aperture photometry
+    """
+    bg_count = bg_bri*src_pixel
+    bg_count_err = bg_bri_err*src_pixel
+    net_count = src_count - bg_count
+    net_count_err = np.sqrt(bg_count_err**2
+                            +src_count_err**2)
+    net_cr = net_count/exposure
+    net_cr_err = net_count_err/exposure
+    snr = net_cr/net_cr_err
+    return net_cr, net_cr_err, snr
+
+def aper_phot(img_name, filt,
+              src_center, src_r,
+              bg_center, bg_r,
+              src_method, bg_method,
+              step_num=5):
+    '''
+    src_method = 'count' or 'median'
+    bg_method = 'single_mean' or 'single_median'
+                or 'donut_mean' or 'donut_median'
+                or 'multi_mean'
+    
+    return cr, cr_err, snr, mag, mag_err, bg_cr, bg_cr_err
+    '''
+    # src photometry: get src_count, src_pixel
+    if src_method == 'count':
+        src_count, src_pixel = circle_ct(img_name, 
+                                         src_center, src_r, 
+                                         method='total')
+    elif src_method == 'median':
+        src_count, src_pixel = azimuthal_ct(img_name,
+                                            src_center, src_r, step_num)
+    else:
+        RaiseExcept('Please check your source photometry method!')
+    # bg photometry: get bg_bri
+    bg_shape = bg_method.split('_')[0]
+    bg_stat = bg_method.split('_')[1]
+    bg_bri, bg_bri_err = reg2bg_bri(img_name, bg_shape, 
+                                    bg_center, bg_r, 
+                                    bg_stat)
+    # photometry
     exposure = float(load_header(img_name)['EXPTIME'])
-    src_count, src_pixel = circle_ct(img_name, src_center, src_r)
-    bg_bri, bg_bri_err = reg2bg_bri(img_name, 'multi', bg_center, bg_r)
-    cr, cr_err, snr = aper_phot(src_count, src_pixel, \
-                                bg_bri, exposure,
-                                np.sqrt(src_count), bg_bri_err)
+    cr, cr_err, snr = aper_phot_cr(src_count, src_pixel,
+                                   bg_bri, exposure,
+                                   np.sqrt(src_count), bg_bri_err)
     mag, mag_err = cr2mag(cr, cr_err, filt)
-    bg_cr = 4*bg_bri/exposure
-    bg_cr_err = 4*bg_bri_err/exposure
+    bg_cr = bg_bri/exposure
+    bg_cr_err = bg_bri_err/exposure
     return (cr, cr_err), snr, (mag, mag_err), (bg_cr, bg_cr_err)

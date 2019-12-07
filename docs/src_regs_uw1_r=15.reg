@@ -1,8 +1,0 @@
-# Generated regions for photometry of the source (good sir)
-global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
-physical
-circle(1001.0,1001.0,15.0) # color=black width=1
-circle(1001.6703301993945,1001.7420629513591,15.0) # color=black width=1
-circle(1002.3406603987888,1002.4841259027182,15.0) # color=red width=3
-circle(1003.0109905981833,1003.2261888540775,15.0) # color=black width=1
-circle(1003.6813207975777,1003.9682518054366,15.0) # color=black width=1
