@@ -104,7 +104,7 @@ def mag_sb_flux_from_spec(spec_name, filt):
     return cr, cr2mag(cr, 0, filt), cr2sb(cr, 0, filt, 1.), cr2flux(cr, 0, filt)
 
 def flux2num(flux, flux_err, g_name, obs_log_name, 
-             method, horizon_id):
+             method, horizon_id, if_show = True):
     # load g factor file
     g_path = get_path('../docs/'+g_name)
     g_file = np.loadtxt(g_path, skiprows=3)
@@ -125,8 +125,9 @@ def flux2num(flux, flux_err, g_name, obs_log_name,
         delta_list = obs_log['OBS_DIS']
         start = obs_log['START'].iloc[0]
         end = obs_log['END'].iloc[-1]
-        #!print('start time: '+start)
-        #!print('end time: '+end)
+        if if_show == True:
+            print('start time: '+start)
+            print('end time: '+end)
         # calculate mean helio velocity
         if method == 'both_ends':
             mean_r = (r_list.iloc[0]+r_list.iloc[-1])/2.
@@ -157,15 +158,18 @@ def flux2num(flux, flux_err, g_name, obs_log_name,
     lumi_err = flux_err*4*np.pi*np.power(au2km(mean_delta)*1000*100, 2)
     mean_g = g_1au(mean_rv)/np.power(mean_r, 2)
     num = lumi/mean_g
-    #!print('flux to num: '+str(4*np.pi*np.power(au2km(mean_delta)*1000*100, 2)/mean_g))
     num_err = lumi_err/mean_g
-    #!print('mid-time r: '+str(mean_r)+' (AU)'+'\n'
-    #      +'mid-time rv: '+str(mean_rv)+' (km/s)'+'\n'
-    #      +'mid-time delta: '+str(mean_delta)+' (AU)'+'\n'
-    #      +'mid-time g factor (for 3 total lines): '+str(mean_g)+' (erg s-1 mol-1)')
+    if if_show == True:
+        print('flux to num: '+str(4*np.pi*np.power(au2km(mean_delta)*1000*100, 2)/mean_g))
+        print('mid-time r: '+str(mean_r)+' (AU)'+'\n'
+              +'mid-time rv: '+str(mean_rv)+' (km/s)'+'\n'
+              +'mid-time delta: '+str(mean_delta)+' (AU)'+'\n'
+              +'mid-time g factor (for 3 total lines): '+str(mean_g)+' (erg s-1 mol-1)')
     return num, num_err
 
-def num_assu(wvm_name, aperture):
+def num_assu(wvm_name, aperture, start=False):
+    if not start:
+        start = 0.
     # load col density from wvm file
     dis = []
     col_den = []
@@ -193,9 +197,10 @@ def num_assu(wvm_name, aperture):
     if not aperture:
         aperture = wvm_file_lines[72].split()
         aperture = float(aperture[3])
-    step_num = int(aperture*100)#10000.
+    step_num = int((aperture-start)*100)#10000.
+    start = au2km(as2au(start, delta))*1000*100.
     aperture = au2km(as2au(aperture, delta))*1000*100. # arcsec to cm
-    dis_list = np.linspace(0, aperture, step_num)
+    dis_list = np.linspace(start, aperture, step_num)
     dis_list = (dis_list[1:]+dis_list[:-1])/2.
     step = dis_list[1]-dis_list[0]
     col_list = dis2col(dis_list)
@@ -206,12 +211,12 @@ def num_assu(wvm_name, aperture):
         num_assu = num_assu + area*col_list[i]
     return num_assu
 
-def num2q(num, num_err, wvm_name, aperture=False):
+def num2q(num, num_err, wvm_name, aperture=False, if_show = True, start=False):
     """ covert number to production rate
         from web vectoria model
     """
     # get assumed num of the model within the aperture
-    num_model = num_assu(wvm_name, aperture)
+    num_model = num_assu(wvm_name, aperture, start)
     # readin the assumed Q_H2O
     wvm_path = get_path('../docs/'+wvm_name)
     wvm_file = open(wvm_path)
@@ -221,6 +226,7 @@ def num2q(num, num_err, wvm_name, aperture=False):
     q_assu = float(q_assu[4])
     # ratio -> actual Q_H2O
     q = (q_assu/num_model)*num
-    #! print('num to q: '+str(q_assu/num_model))
+    if if_show == True:
+        print('num to q: '+str(q_assu/num_model))
     q_err = (q_assu/num_model)*num_err
     return q, q_err

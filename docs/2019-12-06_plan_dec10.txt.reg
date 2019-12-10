@@ -1,0 +1,105 @@
+global color=blue dashlist=8 3 width=1 font="helvetica 8 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+fk5
+
+circle( 176.79626, -27.19257,20")   # text={2019-354 01:51}
+circle( 176.98094, -27.54403,20")   # text={2019-354 12:54}
+circle( 177.00752, -27.59492,20")   # text={2019-354 14:30}
+circle( 177.03392, -27.64523,20")   # text={2019-354 16:05}
+circle( 177.06049, -27.69610,20")   # text={2019-354 17:41}
+circle( 177.08687, -27.74639,20")   # text={2019-354 19:16}
+circle( 177.11342, -27.79724,20")   # text={2019-354 20:52}
+circle( 177.13997, -27.84807,20")   # text={2019-354 22:28}
+circle( 177.16686, -27.90001,20")   # text={2019-355 00:06}
+circle( 177.35131, -28.25213,20")   # text={2019-355 11:12}
+circle( 177.37778, -28.30287,20")   # text={2019-355 12:48}
+circle( 177.40424, -28.35360,20")   # text={2019-355 14:24}
+circle( 177.43052, -28.40376,20")   # text={2019-355 15:59}
+circle( 177.45697, -28.45446,20")   # text={2019-355 17:35}
+circle( 177.48322, -28.50460,20")   # text={2019-355 19:10}
+circle( 177.50965, -28.55528,20")   # text={2019-355 20:46}
+circle( 177.53607, -28.60595,20")   # text={2019-355 22:22}
+circle( 177.56284, -28.65772,20")   # text={2019-356 00:00}
+circle( 177.58960, -28.70947,20")   # text={2019-356 01:38}
+circle( 177.74642, -29.00865,20")   # text={2019-356 11:06}
+circle( 177.77277, -29.05922,20")   # text={2019-356 12:42}
+circle( 177.79910, -29.10977,20")   # text={2019-356 14:18}
+circle( 177.82543, -29.16031,20")   # text={2019-356 15:54}
+circle( 177.85157, -29.21027,20")   # text={2019-356 17:29}
+circle( 177.87788, -29.26079,20")   # text={2019-356 19:05}
+circle( 177.90400, -29.31073,20")   # text={2019-356 20:40}
+circle( 177.93030, -29.36122,20")   # text={2019-356 22:16}
+circle( 177.95711, -29.41336,20")   # text={2019-356 23:55}
+
+## Formula for Box Rotation Angle = SC Roll - 240.64
+## Verified that angle=-250 and +110 give the same result
+## Range of rolls from comet_position:
+##  354: 103 - 120: use 112 -->> Box angle = -128.640
+##
+##  355: 104 - 120: use 112 -->> Box angle = -128.640
+##
+##  356: 104 - 120: use 112 -->> Box angle = -128.640
+##
+
+# 354:
+box( 176.79626, -27.19257, 1020",1020", )    # text={354 01:51}
+# 355:
+box( 177.16686, -27.90001, 1020",1020", -128.640)    # text={355 00:06}
+# 356:
+box( 177.56284, -28.65772, 1020",1020", -128.640)    # text={356 00:00}
+
+## Vectors = Box Rotation + 90d
+## Grism Traces = Vector + DispAxis
+##              = Box Rotation + 90d + DispAxis
+## Nominal u dispersion axis = 63.4 (simgrism) or 61.2 (Paul`s) 
+## Clocked u dispersion axis = 57.4 (simgrism) or 54.7 (Paul`s) 
+##
+## Nominal u-grism:  Use 62d for DispAxis
+## Grism Traces = Box Rotation + 152
+##
+## Range of rolls from comet_position:
+## ## Template:  # vector(ra,dec,314",Vrotation2) vector=1 color=blue text={Roll2}
+
+##  354: 103 - 120: use 112 -->> Vector = 23.3600
+##
+##  355: 104 - 120: use 112 -->> Vector = 23.3600
+##
+##  356: 104 - 120: use 112 -->> Vector = 23.3600
+##
+
+# DOY 354:
+# vector( 176.79626, -27.19257,314",23.3600) vector=1
+# vector( 176.98094, -27.54403,314",23.3600) vector=1
+# vector( 177.00752, -27.59492,314",23.3600) vector=1
+# vector( 177.03392, -27.64523,314",23.3600) vector=1
+# vector( 177.06049, -27.69610,314",23.3600) vector=1
+# vector( 177.08687, -27.74639,314",23.3600) vector=1
+# vector( 177.11342, -27.79724,314",23.3600) vector=1
+# vector( 177.13997, -27.84807,314",23.3600) vector=1
+
+# DOY 355:
+# vector( 177.16686, -27.90001,314",23.3600) vector=1
+# vector( 177.35131, -28.25213,314",23.3600) vector=1
+# vector( 177.37778, -28.30287,314",23.3600) vector=1
+# vector( 177.40424, -28.35360,314",23.3600) vector=1
+# vector( 177.43052, -28.40376,314",23.3600) vector=1
+# vector( 177.45697, -28.45446,314",23.3600) vector=1
+# vector( 177.48322, -28.50460,314",23.3600) vector=1
+# vector( 177.50965, -28.55528,314",23.3600) vector=1
+# vector( 177.53607, -28.60595,314",23.3600) vector=1
+
+# DOY 356:
+# vector( 177.56284, -28.65772,314",23.3600) vector=1
+# vector( 177.58960, -28.70947,314",23.3600) vector=1
+# vector( 177.74642, -29.00865,314",23.3600) vector=1
+# vector( 177.77277, -29.05922,314",23.3600) vector=1
+# vector( 177.79910, -29.10977,314",23.3600) vector=1
+# vector( 177.82543, -29.16031,314",23.3600) vector=1
+# vector( 177.85157, -29.21027,314",23.3600) vector=1
+# vector( 177.87788, -29.26079,314",23.3600) vector=1
+# vector( 177.90400, -29.31073,314",23.3600) vector=1
+# vector( 177.93030, -29.36122,314",23.3600) vector=1
+# vector( 177.95711, -29.41336,314",23.3600) vector=1
+
+## Bright stars
+
+global color=red dashlist=8 3 width=1 font="helvetica 8 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1

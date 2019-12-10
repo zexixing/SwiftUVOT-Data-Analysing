@@ -215,25 +215,27 @@ def flux_ref_v(spec_name_sun, spec_name_OH,
     return flux_ref_v, flux_ref_v_err
 
 def flux_cr_OH(spec_name_sun, spec_name_OH, 
-               cr_uw1, cr_uw1_err, cr_v, cr_v_err, r=0):
+               cr_uw1, cr_uw1_err, cr_v, cr_v_err, 
+               r=0, if_show=True):
     '''get OH flux from OH cr
     '''
-    cr_sun_v = mag_sb_flux_from_spec(spec_name_sun, 'v')[0]
-    cr_sun_uw1 = mag_sb_flux_from_spec(spec_name_sun, 'uw1')[0]
-    beta = cr_sun_uw1/cr_sun_v
+    #cr_sun_v = mag_sb_flux_from_spec(spec_name_sun, 'v')[0]
+    #cr_sun_uw1 = mag_sb_flux_from_spec(spec_name_sun, 'uw1')[0]
+    #beta = cr_sun_uw1/cr_sun_v
+    beta = 0.09276191501510327
     beta = reddening_correct(r)*beta
     cr_ref_uw1 = beta*cr_v
-    #!print('beta: '+str(beta))
     cr_ref_uw1_err = beta*cr_v_err
     cr_OH = cr_uw1 - cr_ref_uw1
     cr_OH_err = error_prop('sub', 
                            cr_uw1, cr_uw1_err, 
                            cr_ref_uw1, cr_ref_uw1_err)
-    flux_OH_model = flux_theo(spec_name_OH, 'uw1')
-    cr_OH_model = mag_sb_flux_from_spec(spec_name_OH, 'uw1')[0]
-    flux_OH = cr_OH/(cr_OH_model/flux_OH_model)
-    #!print('cr to flux: '+str(1./(cr_OH_model/flux_OH_model)))
-    flux_OH_err = cr_OH_err/(cr_OH_model/flux_OH_model)
+    #flux_OH_model = flux_theo(spec_name_OH, 'uw1')
+    #cr_OH_model = mag_sb_flux_from_spec(spec_name_OH, 'uw1')[0]
+    #flux_OH = cr_OH/(cr_OH_model/flux_OH_model)
+    flux_OH = cr_OH * 1.2750906353215913e-12
+    #flux_OH_err = cr_OH_err/(cr_OH_model/flux_OH_model)
+    flux_OH_err = cr_OH_err * 1.2750906353215913e-12
     flux_uw1, flux_uw1_err = flux_ref_uw1(spec_name_sun, 
                                           spec_name_OH, 
                                           cr_uw1, cr_uw1_err, 
@@ -242,8 +244,9 @@ def flux_cr_OH(spec_name_sun, spec_name_OH,
                                     spec_name_OH, 
                                     cr_uw1, cr_uw1_err, 
                                     cr_v, cr_v_err, r)
-    #!print('flux of uw1 (reflection): '+str(flux_uw1)+' +/- '+str(flux_uw1_err))
-    #!print('flux of v: '+str(flux_v)+' +/- '+str(flux_v_err))
+    if if_show == True:
+        print('flux of uw1 (reflection): '+str(flux_uw1)+' +/- '+str(flux_uw1_err))
+        print('flux of v: '+str(flux_v)+' +/- '+str(flux_v_err))
     return flux_OH, flux_OH_err
 
 def flux_cr_spec(spec_name_sun, spec_name_OH, 
@@ -318,7 +321,7 @@ def get_OH(method,
            spec_name_sun, spec_name_OH, spec_name_sum, 
            cr_uw1, cr_uw1_err,
            cr_v, cr_v_err,
-           r = 0):
+           r = 0, if_show = True):
     '''
     method = 'cr', 'flux_cf', 'flux_my_cf', 'flux_cr'
     '''
@@ -337,7 +340,7 @@ def get_OH(method,
     elif method == 'flux_cr':
         flux, flux_err = flux_cr_OH(spec_name_sun, spec_name_OH, 
                                     cr_uw1, cr_uw1_err,
-                                    cr_v, cr_v_err, r)
+                                    cr_v, cr_v_err, r, if_show)
     else:
         RaiseExcept('Please check the method!')
     return flux, flux_err
