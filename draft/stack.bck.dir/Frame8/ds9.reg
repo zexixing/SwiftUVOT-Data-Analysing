@@ -1,0 +1,32 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+physical
+circle(1000,1000,71) # color=white width=2
+# vector(969.16667,1108.8333,35,270) vector=1 color=white width=2
+# vector(969.16667,1108.8333,35,248.439) vector=1 color=white width=2
+# vector(969.16667,1108.8333,35,215.571) vector=1 color=white width=2
+# vector(969.16667,1108.8333,35,0) vector=1 color=white width=2
+# text(1011.6667,1109) textangle=90 color=white width=2 text={N}
+# text(977.5,1083.5) textangle=90 color=white width=2 text={E}
+# text(953,1069.4999) textangle=90 color=white width=2 text={Sun}
+# text(940.33334,1073.3333) textangle=90 color=white width=2 text={Orbit}
+point(1000,1000) # point=x 8 color=white width=2
+# text(1078.3333,1068.3333) textangle=90 color=white width=2 text={~100 000 km}
+# text(1060.8333,1069.1667) textangle=90 color=white width=2 text={71''}
+circle(1000,1000,7.1) # color=black width=2
+# text(1078.3333,943.3333) textangle=90 color=white width=2 text={Dec 21, UVW1 filter}
+# text(1011.6667,1109) textangle=90 color=white width=2 text={N}
+# text(977.5,1083.5) textangle=90 color=white width=2 text={E}
+# text(953,1069.4999) textangle=90 color=white width=2 text={Sun}
+# text(940.33334,1073.3333) textangle=90 color=white width=2 text={Orbit}
+# text(1078.3333,1068.3333) textangle=90 color=white width=2 text={~100 000 km}
+# text(1060.8333,1069.1667) textangle=90 color=white width=2 text={71''}
+# text(1078.3333,943.3333) textangle=90 color=white width=2 text={Dec 21, UVW1 filter}
+# text(1011.6667,1109) textangle=90 color=white width=2 text={N}
+# text(977.5,1083.5) textangle=90 color=white width=2 text={E}
+# text(953,1069.4999) textangle=90 color=white width=2 text={Sun}
+# text(940.33334,1073.3333) textangle=90 color=white width=2 text={Orbit}
+# text(1078.3333,1068.3333) textangle=90 color=white width=2 text={~100 000 km}
+# text(1060.8333,1069.1667) textangle=90 color=white width=2 text={71''}
+# text(1078.3333,943.3333) textangle=90 color=white width=2 text={Dec 21, UVW1 filter}
+line(1069.3333,1035.8333,1069.3333,1106.8333) # line=0 0 color=white width=2

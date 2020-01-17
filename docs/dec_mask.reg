@@ -4,7 +4,6 @@ physical
 circle(1138.3334,1010,14.522208) # color=black width=2
 circle(1065,1023.3333,25.49519) # color=black width=2
 circle(1050.8334,888.33326,27.36847) # color=black width=2
-circle(1036.6667,919.99994,14.597818) # color=black width=2
 circle(1021.6667,874.99991,14.597818) # color=black width=2
 circle(1080.8334,904.99993,14.597818) # color=black width=2
 circle(1123.3334,941.66662,19.806061) # color=black width=2
@@ -25,6 +24,22 @@ circle(1111.6667,848.33323,18.548092) # color=black width=2
 circle(1010.8333,816.66654,18.548092) # color=black width=2
 circle(1039.1667,831.66655,18.548092) # color=black width=2
 circle(1206.0001,1129.0001,88.909851) # color=black width=2
-circle(1123.0001,1104.0001,22.848377) # color=black width=2
-circle(1121.0001,1138.0001,22.848377) # color=black width=2
+circle(888.0001,1145.0001,50) # color=black width=2
+circle(1082.0001,811.0001,22.848377) # color=black width=2
 circle(1191.0001,975.99998,14.89397) # color=black width=2
+circle(1138.3334,1010,14.522208) # color=black width=2
+circle(990.2935,974.9147,7.6821006) # color=black width=2
+circle(1022.7935,1027.4147,7.6821006) # color=black width=2
+circle(1013.7513,1017.7027,7.6821006) # color=black width=2
+circle(978.57996,1076.8334,17.56032) # color=black width=2
+circle(1168.5668,1020.0733,14.522208) # color=black width=2
+circle(971.2513,965.2027,7.6821006) # color=black width=2
+circle(981.12683,970.74803,7.6821006) # color=black width=2
+circle(1083.3334,924.99993,15.603464) # color=black width=2
+circle(1060.8334,929.16661,14.597818) # color=black width=2
+circle(1036.6667,919.99994,14.597818) # color=black width=2
+circle(912.91797,991.86937,7.6821006) # color=black width=2
+circle(945.69998,1142.6001,18.794728) # color=black width=2
+circle(900.1057,1276.6097,117.28975) # color=black width=2
+circle(1221,1011,20)
+circle(1137.0001,1154.0001,88.909851) # color=black width=2

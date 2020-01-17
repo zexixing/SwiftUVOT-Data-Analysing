@@ -1,0 +1,32 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+physical
+circle(1000,1000,45) # color=white width=2
+# vector(969.16667,1108.8333,35,270) vector=1 color=white width=2
+# vector(969.16667,1108.8333,35,244.702) vector=1 color=white width=2
+# vector(969.16667,1108.8333,35,211.428) vector=1 color=white width=2
+# vector(969.16667,1108.8333,35,0) vector=1 color=white width=2
+# text(1009.1667,1109) textangle=90 color=white width=2 text={N}
+# text(967.5,1068.5) textangle=90 color=white width=2 text={E}
+# text(954.5,1065.3333) textangle=90 color=white width=2 text={Sun}
+# text(943.5,1074.6666) textangle=90 color=white width=2 text={Orbit}
+point(1000,1000) # point=x 8 color=white width=2
+line(1061,1049.1667,1061,1094.1667) # line=0 0 color=white width=2
+# text(1070,1068.3333) textangle=90 color=white width=2 text={~100 000 km}
+# text(1052.5,1068.3334) textangle=90 color=white width=2 text={45''}
+# text(1070,929.99997) textangle=90 color=white width=2 text={Sep 27, V filter}
+circle(1000,1000,5.3) # color=black width=2
+# text(1009.1667,1109) textangle=90 color=white width=2 text={N}
+# text(967.5,1068.5) textangle=90 color=white width=2 text={E}
+# text(954.5,1065.3333) textangle=90 color=white width=2 text={Sun}
+# text(943.5,1074.6666) textangle=90 color=white width=2 text={Orbit}
+# text(1070,1068.3333) textangle=90 color=white width=2 text={~100 000 km}
+# text(1052.5,1068.3334) textangle=90 color=white width=2 text={45''}
+# text(1070,929.99997) textangle=90 color=white width=2 text={Sep 27, V filter}
+# text(1009.1667,1109) textangle=90 color=white width=2 text={N}
+# text(967.5,1068.5) textangle=90 color=white width=2 text={E}
+# text(954.5,1065.3333) textangle=90 color=white width=2 text={Sun}
+# text(943.5,1074.6666) textangle=90 color=white width=2 text={Orbit}
+# text(1070,1068.3333) textangle=90 color=white width=2 text={~100 000 km}
+# text(1052.5,1068.3334) textangle=90 color=white width=2 text={45''}
+# text(1070,929.99997) textangle=90 color=white width=2 text={Sep 27, V filter}

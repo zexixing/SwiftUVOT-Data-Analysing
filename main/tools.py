@@ -60,5 +60,7 @@ def integ(x, y, step_num=False):
         result += x[i]*y[i]
     return result
 
+#print(au2km(as2au(56,1.94)))
+
 
 

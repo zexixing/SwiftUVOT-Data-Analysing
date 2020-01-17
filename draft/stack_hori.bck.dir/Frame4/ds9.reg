@@ -1,0 +1,18 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+physical
+circle(1000,1000,67) # color=white width=2
+# vector(1079.6333,1078.4,35,270) vector=1 color=white width=2
+# vector(1079.6333,1078.4,35,250.726) vector=1 color=white width=2
+# vector(1079.6333,1078.4,35,210.697) vector=1 color=white width=2
+# vector(1079.6333,1078.4,35,0) vector=1 color=white width=2
+# text(1122.1334,1078.5667) textangle=90 color=white width=2 text={N}
+# text(1079.6333,1038.0667) textangle=90 color=white width=2 text={E}
+# text(1066.8,1038.2333) textangle=90 color=white width=2 text={Sun}
+# text(1043.3,1073.7334) textangle=90 color=white width=2 text={Orbit}
+point(1000,1000) # point=x 8 color=white width=2
+circle(1000,1000,6.7) # color=black width=2
+# text(922.5,954.99997) textangle=90 color=white width=2 text={Nov 1, V filter}
+line(1105.1667,910.83327,1105.1667,977.83327) # line=0 0 color=white width=2
+# text(1114.1667,944.16663) textangle=90 color=white width=2 text={~100 000 km}
+# text(1096.6667,948.3334) textangle=90 color=white width=2 text={67''}

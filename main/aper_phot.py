@@ -104,7 +104,7 @@ def circle_ct(img_name, center, r, method='mean', mask_img = False):
                     count_list.append(img_data[i, j])
     if method == 'mean':
         count_unmask = (count/pixel)*pixel_unmask
-        return count_unmask, pixel_unmask
+        return count, pixel
     elif method == 'median':
         count_unmask = np.median(np.array(count_list))*pixel_unmask
         return count_unmask, pixel_unmask, np.std(np.array(count_list))*pixel_unmask
@@ -133,10 +133,11 @@ def donut_ct(img_name, center, r, method='mean', mask_img = False):
                 if mask_img[i, j] == 1:
                     count_list.append(img_data[i,j])
     if method == 'mean':
-        return count, pixel
+        #return count, pixel
+        return (count/pixel)*pixel_unmask, pixel_unmask
     elif method == 'median':
         count_unmask = np.median(np.array(count_list))*pixel_unmask
-        count_err = np.std(np.array(count_list))*pixel_unmask
+        count_err = (np.sqrt(np.sum(np.array(count_list)))/len(count_list))*1.2533*pixel_unmask
         return count_unmask, pixel_unmask, count_err
     else:
         pass
@@ -309,4 +310,8 @@ def aper_phot(img_name, filt,
     bg_cr = bg_bri/exposure
     bg_cr_err = bg_bri_err/exposure
     return (cr, cr_err), snr, (mag, mag_err), (bg_cr, bg_cr_err)
+
+
+
+
 

@@ -1,0 +1,33 @@
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+fk5
+circle(168.96200000000002,-12.668460000000001,20.000") # color=green 
+circle(168.96278,-12.67015,20.000") # color=green 
+circle(168.96358999999998,-12.67199,20.000") # color=blue 
+circle(168.96432,-12.673680000000001,20.000") # color=blue 
+circle(168.96504,-12.67535,20.000") # color=blue 
+circle(168.96577,-12.67703,20.000") # color=blue 
+circle(168.96652,-12.67868,20.000") # color=blue 
+circle(168.96698999999998,-12.6797,20.000") # color=blue 
+circle(168.99168999999998,-12.72173,20.000") # color=blue 
+circle(168.99241999999998,-12.723410000000001,20.000") # color=blue 
+circle(168.99313999999998,-12.72509,20.000") # color=blue 
+circle(168.99386,-12.72675,20.000") # color=blue 
+circle(168.99461000000002,-12.72841,20.000") # color=blue 
+circle(168.99507,-12.72943,20.000") # color=blue 
+circle(169.01998999999998,-12.77196,20.000") # color=blue 
+circle(169.02071999999998,-12.77365,20.000") # color=blue 
+circle(169.02143999999998,-12.775319999999999,20.000") # color=blue 
+circle(169.02217,-12.77698,20.000") # color=blue 
+circle(169.02291,-12.77865,20.000") # color=blue 
+circle(169.02338,-12.77967,20.000") # color=blue 
+circle(169.16102,-13.02236,20.000") # color=blue 
+circle(169.16175,-13.02405,20.000") # color=blue 
+circle(169.16246999999998,-13.025730000000001,20.000") # color=blue 
+circle(169.16319,-13.0274,20.000") # color=blue 
+circle(169.16391000000002,-13.029000000000002,20.000") # color=blue 
+circle(169.27368,-13.222710000000001,20.000") # color=blue 
+circle(169.27441000000002,-13.22441,20.000") # color=blue 
+circle(169.27513000000002,-13.22609,20.000") # color=blue 
+circle(169.27585,-13.227770000000001,20.000") # color=blue 
+circle(169.27658,-13.229439999999999,20.000") # color=blue 
+circle(169.27705,-13.23046,20.000") # color=blue 

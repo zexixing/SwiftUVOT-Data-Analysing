@@ -102,6 +102,9 @@ def mag_sb_flux_from_spec(spec_name, filt):
         cr += spec[i, 0]*spec[i, 1]*spec[i, 2]*delta_wave*1e7*5.034116651114543 #10^8 for Kurucz
     # cr to mag
     return cr, cr2mag(cr, 0, filt), cr2sb(cr, 0, filt, 1.), cr2flux(cr, 0, filt)
+spec_name = 'sun_1A.txt'
+print(mag_sb_flux_from_spec(spec_name, 'v')[1])
+print(mag_sb_flux_from_spec(spec_name, 'b')[1])
 
 def flux2num(flux, flux_err, g_name, obs_log_name, 
              method, horizon_id, if_show = True):
@@ -118,7 +121,6 @@ def flux2num(flux, flux_err, g_name, obs_log_name,
     obs_log = pd.read_csv(obs_log_path, sep=' ', 
                           index_col=['FILTER'])
     obs_log = obs_log[['HELIO', 'HELIO_V', 'START', 'END', 'OBS_DIS']]
-    obs_log = obs_log.loc['UVW1']
     if obs_log.index.name == 'FILTER':
         r_list = obs_log['HELIO']
         rv_list = obs_log['HELIO_V']
@@ -137,8 +139,8 @@ def flux2num(flux, flux_err, g_name, obs_log_name,
             dt = Time(end)-Time(start)
             mid_time = Time(start)+1/2*dt
             obj = Horizons(id=horizon_id,
-                        location='@swift',
-                        epochs=mid_time.jd)
+                           location='@swift',
+                           epochs=mid_time.jd)
             eph = obj.ephemerides()[0]
             mean_r = eph['r']
             mean_rv = eph['r_rate']
@@ -160,7 +162,6 @@ def flux2num(flux, flux_err, g_name, obs_log_name,
     num = lumi/mean_g
     num_err = lumi_err/mean_g
     if if_show == True:
-        print('flux to num: '+str(4*np.pi*np.power(au2km(mean_delta)*1000*100, 2)/mean_g))
         print('mid-time r: '+str(mean_r)+' (AU)'+'\n'
               +'mid-time rv: '+str(mean_rv)+' (km/s)'+'\n'
               +'mid-time delta: '+str(mean_delta)+' (AU)'+'\n'
@@ -226,7 +227,51 @@ def num2q(num, num_err, wvm_name, aperture=False, if_show = True, start=False):
     q_assu = float(q_assu[4])
     # ratio -> actual Q_H2O
     q = (q_assu/num_model)*num
-    if if_show == True:
-        print('num to q: '+str(q_assu/num_model))
     q_err = (q_assu/num_model)*num_err
+    if if_show == True:
+        print('water production rate: '+str(q)+' +/- '+str(q_err))
     return q, q_err
+
+def mag2afr(horizon_id, mag_v, mag_v_err, aperture, obs_log_name, phase_name, phase_corr):
+#def mag2afr(horizon_id, mag_v, mag_v_err, aperture, r, delta, phase, phase_name, phase_corr):
+    
+    obs_log_path = get_path('../docs/'+obs_log_name)
+    obs_log = pd.read_csv(obs_log_path, sep=' ', 
+                          index_col=['FILTER'])
+    obs_log = obs_log[['HELIO', 'HELIO_V', 'START', 'END', 'OBS_DIS']]
+    obs_log = obs_log.loc['V']
+    if obs_log.index.name == 'FILTER':
+        start = obs_log['START'].iloc[0]
+        end = obs_log['END'].iloc[-1]
+    else:
+        start = obs_log['START']
+        end = obs_log['END']
+    dt = Time(end)-Time(start)
+    mid_time = Time(start)+1/2*dt
+    obj = Horizons(id=horizon_id,
+                   location='@swift',
+                   epochs=mid_time.jd)
+    eph = obj.ephemerides()[0]
+    r = eph['r']
+    delta = eph['delta']
+    phase = eph['alpha']
+    
+    # afr
+    mag_sun = -26.75
+    rou = au2km(as2au(aperture,delta))*1000
+    factor = np.power(2*au2km(delta)*r*1000,2)/rou
+    afr = np.power(10,0.4*(mag_sun-mag_v))*factor
+    afr_err = 0.4*np.log(10)*np.power(10,0.4*(mag_sun-mag_v))*mag_v_err*factor
+    # phase effect correction
+    phase_path = get_path('../docs/'+phase_name)
+    phase_file = np.loadtxt(phase_path)
+    deg = phase_file[:,0]
+    corr_coef = phase_file[:,1]
+    pha_corr = interpolate.interp1d(deg, corr_coef, fill_value='extrapolate')
+    corr_coef = pha_corr(phase)
+    if phase_corr == True:
+        afr = afr/corr_coef
+        afr_err = afr_err/corr_coef
+    else:
+        pass
+    return afr, afr_err
